@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bertrand Russell — the paradox, and the theory of types</title>
+<meta name="description" content="LOGIKĒ XV — Bertrand Russell (1872–1970). His paradox — the set of all sets that don't contain themselves — broke Frege's foundation of mathematics in 1902. His repair, the THEORY OF TYPES, stratifies objects into levels so that a set can never contain itself, making the paradox unsayable; that idea lives on in the type system of every modern programming language. With Whitehead he wrote Principia Mathematica, deriving arithmetic from logic (1+1=2 proved after hundreds of pages). Live: trigger the paradox on both branches, and run a type-checker that rejects self-membership. Honest: logicism didn't fully succeed (Gödel), and Russell's life ranged far beyond logic. David Lee Wise, two-layer honest.">
+<style>
+  :root{--bg:#0c0f17;--panel:#121622;--panel2:#19202f;--edge:#2a3346;--ink:#ede6d6;--dim:#b3ad9a;--faint:#7c7660;
+    --ochre:#d9b66a;--ochre2:#f0d79a;--proof:#5ad1ff;--proof2:#a7e6ff;--one:#7fe0a0;--zero:#fb7185;--amber:#fbbf24;--ember:#fb923c;
+    --mono:'SFMono-Regular',ui-monospace,'Cascadia Code',Menlo,Consolas,monospace;--serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.58;background-image:radial-gradient(1100px 560px at 75% -10%,#1c2436 0%,transparent 55%),radial-gradient(900px 500px at 0% 100%,#14110a 0%,transparent 55%);}
+  .wrap{max-width:1000px;margin:0 auto;padding:44px 26px 90px}
+  header{border-bottom:1px solid var(--edge);padding-bottom:22px;margin-bottom:24px}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ochre);opacity:.95}
+  h1{font-family:Georgia,serif;font-size:38px;line-height:1.08;margin:.3em 0 .14em;font-weight:600}h1 em{color:var(--ochre2);font-style:italic}
+  .who{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.04em}
+  .sub{color:var(--dim);font-size:16px;max-width:74ch;margin-top:14px}.sub b{color:var(--ink)}
+  .verdicts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:22px 0}@media(max-width:720px){.verdicts{grid-template-columns:1fr}}
+  .vc{border:1px solid var(--edge);border-radius:11px;padding:13px 15px;border-top-width:3px;background:rgba(18,22,34,.6)}
+  .vc .badge{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em}
+  .vc.s{border-top-color:var(--one)}.vc.s .badge{color:var(--one)} .vc.m{border-top-color:var(--amber)}.vc.m .badge{color:var(--amber)} .vc.f{border-top-color:var(--ember)}.vc.f .badge{color:var(--ember)}
+  .vc p{font-size:12px;color:var(--dim);margin:6px 0 0;line-height:1.45}.vc p b{color:var(--ink)}
+  section{margin:36px 0}
+  h2{font-size:13px;font-family:var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--ochre2);border-left:2px solid var(--ochre);padding-left:11px;margin:0 0 6px}
+  .lede{color:var(--dim);font-size:15px;margin:0 0 18px;max-width:80ch}
+  .panel{background:linear-gradient(180deg,var(--panel),#0a0d14);border:1px solid var(--edge);border-radius:14px;padding:20px;box-shadow:0 24px 60px -40px #000}
+  button{font-family:var(--mono);font-size:12px;color:var(--ink);background:#1a2030;border:1px solid var(--edge);border-radius:8px;padding:8px 13px;cursor:pointer}button:hover{background:#222b3e;border-color:var(--ochre)}
+  button.on{border-color:var(--ochre);background:#2a2414;color:var(--ochre2)}
+  .para{text-align:center;padding:6px 0}
+  .rbtn{font-family:var(--mono);font-size:13px;padding:9px 16px;border-radius:9px;border:1px solid var(--edge);background:#1a2030;color:var(--ink);cursor:pointer;margin:0 5px}
+  .rout{font-family:Georgia,serif;font-size:15px;min-height:80px;margin-top:14px;color:var(--dim)}
+  .tc{display:flex;gap:16px;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:10px}
+  .pick{display:flex;gap:6px;align-items:center;font-family:var(--mono);font-size:12px;color:var(--dim)}
+  .pick button{min-width:34px}
+  .stmt{font-family:var(--mono);font-size:22px;text-align:center;color:var(--proof2);margin:8px 0}
+  .tverdict{font-family:var(--mono);font-size:14px;text-align:center;min-height:46px;padding:10px;border-radius:9px}
+  .tverdict.ok{color:var(--one);background:#0d1a12;border:1px solid #2f5b40}
+  .tverdict.err{color:var(--zero);background:#1f1014;border:1px solid #5b2f33}
+  .note{color:var(--dim);font-size:13.5px;border-left:2px solid var(--edge);padding-left:13px;margin:16px 0 0}.note b{color:var(--ink)}
+  .thm{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}@media(max-width:620px){.thm{grid-template-columns:1fr}}
+  .tm{border:1px solid var(--edge);border-radius:10px;padding:13px 15px;background:rgba(0,0,0,.14)}.tm b{color:var(--ochre2);font-family:var(--mono);font-size:11px}.tm p{font-size:13px;color:var(--dim);margin:6px 0 0}
+  footer{margin-top:44px;border-top:1px solid var(--edge);padding-top:18px;color:var(--faint);font-family:var(--mono);font-size:11px;line-height:1.7}
+  footer a,.bar2 a{color:var(--ochre)}.bar2{font-family:var(--mono);font-size:11.5px;margin-bottom:16px}.bar2 a{text-decoration:none;border-bottom:1px dotted #4a4126}
+  code{font-family:var(--mono);color:var(--ochre2);background:#15120a;padding:1px 5px;border-radius:5px}
+  blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--ochre);color:var(--ink);font-style:italic;font-size:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="bar2"><a href="https://davidwise01.github.io/ud0/">◄ UD0</a> &nbsp; <a href="https://davidwise01.github.io/georg-cantor/">← Cantor</a> &nbsp; LOGIKĒ · XV · the foundations rank</div>
+<header>
+  <div class="kicker">LOGIKĒ · XV · the paradox, and the theory of types</div>
+  <h1>Bertrand <em>Russell</em></h1>
+  <div class="who">1872 – 1970 · Trelleck, Wales &amp; Cambridge · logician, philosopher, Nobel laureate in Literature (1950)</div>
+  <div class="sub">In June 1902 Russell sent Frege a short letter that ended an era. Frege had just built arithmetic on the idea that any property defines a set; Russell asked about one property — <b>"is not a member of itself"</b> — and the whole edifice collapsed into contradiction. Having broken the foundation, he spent a decade trying to rebuild it: with Whitehead he wrote the monumental <b>Principia Mathematica</b>, and to bar the paradox he invented the <b>theory of types</b> — a discipline of <em>levels</em> that forbids a set from ever referring to itself. That stratifying idea is now the type system inside every serious programming language.</div>
+</header>
+<div class="verdicts">
+  <div class="vc s"><span class="badge">✓ STRONG</span><p><b>A genuine break, a lasting fix.</b> Russell's paradox is a real, exact contradiction in naïve set theory; the theory of types is a sound response, and its descendants (typed languages, proof assistants) are everywhere in computing.</p></div>
+  <div class="vc m"><span class="badge">◐ LOGICISM FELL SHORT</span><p><b>The grand goal didn't fully land.</b> Principia needed extra axioms (infinity, reducibility) that aren't pure logic, and Gödel (1931) showed <em>no</em> such system can be complete. Mathematics-from-logic-alone was not achieved.</p></div>
+  <div class="vc f"><span class="badge">◔ FAR BEYOND LOGIC</span><p><b>Most of his life was elsewhere.</b> Russell was a public philosopher, pacifist (jailed in WWI), educator, and essayist who won the <em>Literature</em> Nobel. Brilliant and contrarian — and, on some social views, a man of his era to read critically.</p></div>
+</div>
+
+<section>
+  <h2>I · The paradox — the letter that broke arithmetic</h2>
+  <p class="lede">Most sets don't contain themselves: the set of all teacups is not a teacup. A few might: the set of all "things that are not teacups" <em>is</em> not a teacup, so it contains itself. Now form <b>R = the set of all sets that do NOT contain themselves</b>, and ask the fatal question. (The village version: a barber shaves exactly those who don't shave themselves — so who shaves the barber?)</p>
+  <div class="panel">
+    <div class="para">
+      <div style="font-family:Georgia;font-size:17px;margin-bottom:12px"><b>R</b> = { sets that are not members of themselves }. &nbsp; Is <b>R</b> a member of <b>R</b>?</div>
+      <button class="rbtn" id="ryes">suppose R ∈ R</button><button class="rbtn" id="rno">suppose R ∉ R</button>
+      <div class="rout" id="rout">Pick one — both doors slam.</div>
+    </div>
+    <div class="note">Either way, <b>R ∈ R ⟺ R ∉ R</b> — a flat contradiction from an apparently innocent definition. Naïve "any property makes a set" cannot stand. This is the same shape as [[kurt-godel]]'s and the liar's self-reference; the cure is to forbid the self-reference itself.</div>
+  </div>
+  <blockquote>"The point of philosophy is to start with something so simple as not to seem worth stating, and to end with something so paradoxical that no one will believe it." <span style="color:var(--faint);font-style:normal;font-size:12px">— Bertrand Russell</span></blockquote>
+</section>
+
+<section>
+  <h2>II · The theory of types — making the paradox unsayable</h2>
+  <p class="lede">Russell's fix: stop letting sets mix levels. Individuals live at <b>type 0</b>. Sets <em>of</em> individuals at <b>type 1</b>. Sets of those at <b>type 2</b>, and so on. The rule: <code>x ∈ y</code> is only well-formed when <b>type(x) = type(y) − 1</b> — a set may only contain things exactly one level below it. Now "<code>R ∈ R</code>" asks for <code>type(R) = type(R) − 1</code>, which nothing satisfies: <em>the paradox can't even be written down.</em> Pick types and check membership.</p>
+  <div class="panel">
+    <div class="tc">
+      <div class="pick">type(x) =
+        <button class="tx on" data-x="0">0</button><button class="tx" data-x="1">1</button><button class="tx" data-x="2">2</button></div>
+      <div class="pick">type(y) =
+        <button class="ty" data-y="0">0</button><button class="ty on" data-y="1">1</button><button class="ty" data-y="2">2</button></div>
+      <button id="self" style="border-color:#5b2f33">try R ∈ R (x = y)</button>
+    </div>
+    <div class="stmt" id="stmt">x⁰ ∈ y¹</div>
+    <div class="tverdict ok" id="tverd"></div>
+    <div class="note">A type checker is doing exactly this when it rejects <code>list.append(list)</code>-style nonsense or an ill-formed recursive type: it tracks levels and refuses the ones that would let a thing swallow itself. Russell built the first one — on paper, to save arithmetic — and it became the <b>type system</b> running in every compiler. ⚑ The paradox didn't just get patched; it got turned into a tool.</div>
+  </div>
+</section>
+
+<section>
+  <h2>III · Principia, the limit, and the public man</h2>
+  <div class="thm">
+    <div class="tm"><b>PRINCIPIA MATHEMATICA</b><p>With Whitehead (1910–13): an attempt to derive all mathematics from logic. Famously, "1 + 1 = 2" is proved only well past page 360 — rigor at monumental cost.</p></div>
+    <div class="tm"><b>THE TYPED HIERARCHY</b><p>Stratified types bar self-reference and tame the paradoxes. Direct ancestor of type theory, the Curry–Howard correspondence, and modern proof assistants.</p></div>
+  </div>
+  <p class="note" style="border-color:var(--amber);margin-top:16px"><b style="color:var(--amber)">Gate kept on.</b> Two honesties. The <b>logic</b>: Russell's paradox is real and his types are a sound fix — but <em>logicism</em>, the dream that mathematics is <em>just</em> logic, did not fully succeed. Principia leaned on axioms (infinity, reducibility) that look more like mathematics than pure logic, and within twenty years [[kurt-godel]] proved that no consistent system of that strength can prove all truths or even its own consistency — so the foundation Russell rebuilt has a ceiling, like everyone's. The <b>man</b>: Russell lived ninety-seven enormous years mostly <em>outside</em> logic — a pacifist imprisoned in WWI, a campaigner against nuclear weapons into his nineties, a popular essayist and educator who won the Nobel Prize in <em>Literature</em> (1950) for his humane writing. He was also combative, often wrong with great confidence, and held some social views best read with a critical eye for their time. A first-rank logician who became one of the century's loudest consciences — the lineage holds the logic; the rest is his and history's to weigh.</p>
+</section>
+
+<footer>
+  BERTRAND RUSSELL · LOGIKĒ XV · two-layer honest<br>
+  live Russell's paradox (R ∈ R ⟺ R ∉ R, both branches contradict) · a type-checker (x ∈ y well-formed iff type(x)=type(y)−1; self-membership rejected, verified)<br>
+  the paradox (1902) broke Frege's foundation · the theory of types &amp; Principia Mathematica (with Whitehead) · the ancestor of every programming-language type system<br>
+  ← <a href="https://davidwise01.github.io/georg-cantor/">Cantor</a> · next → <b>Church</b> (the λ-calculus &amp; the other limit of computation)<br>
+  LOGIKĒ · the lineage of logical mathematics · governor David Lee Wise · CC-BY-ND-4.0
+</footer>
+</div>
+<script>
+"use strict";
+// ---------- MODULE I : the paradox ----------
+(function(){
+  const $=id=>document.getElementById(id);
+  function show(assume){
+    const html = assume==='in'
+      ? '<div style="color:var(--proof2);font-family:var(--mono);font-size:13px;margin-bottom:8px">Suppose R ∈ R.</div>'+
+        'Then R <b>is</b> a member of itself. But R contains <em>only</em> sets that are <b style="color:var(--ochre2)">not</b> members of themselves — so R must <b style="color:var(--zero)">not</b> contain R. Contradiction: R ∈ R forces R ∉ R.'
+      : '<div style="color:var(--proof2);font-family:var(--mono);font-size:13px;margin-bottom:8px">Suppose R ∉ R.</div>'+
+        'Then R is a set that is <b>not</b> a member of itself — which is exactly the membership condition for R. So R <b style="color:var(--zero)">qualifies</b> and must be in R. Contradiction: R ∉ R forces R ∈ R.';
+    $('rout').innerHTML=html;
+  }
+  $('ryes').onclick=()=>show('in');
+  $('rno').onclick=()=>show('out');
+})();
+
+// ---------- MODULE II : the type checker ----------
+(function(){
+  const $=id=>document.getElementById(id);
+  let tx=0, ty=1;
+  const sup=n=>['⁰','¹','²'][n];
+  function render(){
+    $('stmt').innerHTML='x'+sup(tx)+' ∈ y'+sup(ty);
+    document.querySelectorAll('.tx').forEach(b=>b.classList.toggle('on',+b.dataset.x===tx));
+    document.querySelectorAll('.ty').forEach(b=>b.classList.toggle('on',+b.dataset.y===ty));
+    const ok = (tx === ty-1);
+    const v=$('tverd');
+    if(ok){ v.className='tverdict ok'; v.innerHTML='✓ WELL-TYPED — a type-'+ty+' set may contain a type-'+tx+' member (type(x) = type(y) − 1).'; }
+    else if(tx===ty){ v.className='tverdict err'; v.innerHTML='✗ TYPE ERROR — x and y share a level; a set cannot contain something of its own type. <b>R ∈ R is not even a legal sentence.</b>'; }
+    else { v.className='tverdict err'; v.innerHTML='✗ TYPE ERROR — need type(x) = type(y) − 1, but '+tx+' ≠ '+(ty-1)+'. Membership only crosses exactly one level.'; }
+  }
+  document.querySelectorAll('.tx').forEach(b=>b.onclick=()=>{tx=+b.dataset.x;render();});
+  document.querySelectorAll('.ty').forEach(b=>b.onclick=()=>{ty=+b.dataset.y;render();});
+  $('self').onclick=()=>{ tx=1; ty=1; render(); };
+  render();
+})();
+</script>
+</body>
+</html>

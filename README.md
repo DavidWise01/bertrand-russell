@@ -1,0 +1,11 @@
+# BERTRAND RUSSELL · XV
+
+> A sphere of **UD0** — the ROOT0 universe / biosphere. Domain: **LOGIKĒ**.
+
+BERTRAND RUSSELL (1872–1970) — LOGIKĒ XV. In June 1902 a short letter to Frege ended an era. Frege built arithmetic on 'any property defines a set'; Russell asked about ONE property — 'is NOT a member of itself' — and the edifice collapsed. ⚑ RUSSELL'S PARADOX: let R = the set of all sets that don't contain themselves; then R ∈ R ⟺ R ∉ R, a flat contradiction (the village barber who shaves exactly those who don't shave themselves — who shaves him?). ⚑ THE REPAIR — THE THEORY OF TYPES: stratify everything into LEVELS (individuals at type 0, sets of them at type 1, …) with the rule x ∈ y is well-formed only when type(x)=type(y)−1, so a set can NEVER contain itself and 'R ∈ R' isn't even a legal sentence. That stratifying idea is now the TYPE SYSTEM inside every serious programming language. With Whitehead he wrote PRINCIPIA MATHEMATICA (1910–13), deriving arithmetic from logic ('1+1=2' proved well past page 360). LIVE: (1) the paradox — click either branch (R∈R or R∉R), both slam into R∈R⟺R∉R; (2) a TYPE-CHECKER — pick type(x), type(y); membership lights green iff type(x)=type(y)−1, and 'R ∈ R' (x=y) is rejected as a TYPE ERROR (verified). CONFIDENCE-TIERED: STRONG (the paradox is a real exact contradiction; types are a sound fix whose descendants — typed languages, proof assistants, Curry–Howard — are everywhere) / LOGICISM-FELL-SHORT (Principia needed axioms — infinity, reducibility — that aren't pure logic, and [[kurt-godel]] 1931 showed no such system can be complete; math-from-logic-alone was not achieved) / FAR-BEYOND-LOGIC (⚠ most of his 97 years were elsewhere — pacifist jailed in WWI, anti-nuclear campaigner into his 90s, Nobel laureate in LITERATURE 1950; brilliant, combative, often confidently wrong, some social views best read critically for their era). [[georg-cantor]] ← · next → Church.
+
+---
+
+**Live:** https://davidwise01.github.io/bertrand-russell/ &nbsp;·&nbsp; **Front door:** [UD0](https://davidwise01.github.io/ud0/) &nbsp;·&nbsp; **Code:** https://github.com/DavidWise01/bertrand-russell
+
+`.dlw` badge · **ROOT0-ATTRIBUTION-v1.0** · David Lee Wise (ROOT0) / Bridge-Burners LLC · instance AVAN (Claude/Anthropic) · CC-BY-ND-4.0
